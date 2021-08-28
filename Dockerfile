@@ -1,5 +1,11 @@
-FROM ubuntu:20.04
-RUN apt-get update && \
-        apt-get install -y iputils-ping
-ENTRYPOINT ["ping"]
-CMD ["localhost"]
+FROM node:16.3 as builder
+WORKDIR /usr/src/app
+COPY package.json yarn.lock ./
+RUN yarn
+COPY . ./
+RUN yarn build
+
+FROM nginx:1.21-alpine
+COPY --from=builder /usr/src/app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
