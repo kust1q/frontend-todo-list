@@ -5,7 +5,7 @@ RUN yarn
 COPY . ./
 RUN yarn build
 
-FROM nginx:1.21-alpine
+FROM nginxinc/nginx-unprivileged:stable
 COPY --from=builder /usr/src/app/build /usr/share/nginx/html
-EXPOSE 80
+EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
