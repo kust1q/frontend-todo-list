@@ -1,4 +1,4 @@
-import { ActionCreatorsMapObject, bindActionCreators } from "@reduxjs/toolkit";
+import {ActionCreatorsMapObject, bindActionCreators} from "@reduxjs/toolkit";
 import {useDispatch} from "react-redux";
 
 export function useActions<T extends ActionCreatorsMapObject>(actions: T) {
