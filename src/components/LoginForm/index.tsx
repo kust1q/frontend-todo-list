@@ -3,7 +3,8 @@ import "./style.css"
 
 const LoginForm: FC = () => {
     const handleGoogleAuth = () => {
-        window.location.href = "http://localhost:8080/oauth2/authorization/google"
+        const baseURL = process.env.REACT_APP_BACKEND_IP;
+        window.location.href = `${baseURL}/oauth2/authorization/google`
     }
     return (
         <div className="modal modal-form" tabIndex={-1}>
