@@ -19,7 +19,7 @@ const NewItem: FC<Props> = ({createNewItem}) => {
     const [text, onChange] = useState("");
     return (
         <div className="row justify-content-center">
-            <div className="col-4 mt-5">
+            <div className="col-lg-4 mt-5">
                 <h2 className="h2">&nbsp;TODO application</h2>
                 <div className="input-group mb-3">
                     <input type="text"
