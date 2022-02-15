@@ -1,9 +1,9 @@
 FROM node:16.3 as builder
 WORKDIR /usr/src/app
-COPY package.json yarn.lock ./
-RUN yarn
+COPY package.json ./
+RUN npm install
 COPY . ./
-RUN yarn build
+RUN npm run build
 
 FROM nginxinc/nginx-unprivileged:stable
 COPY config/default.conf /etc/nginx/conf.d/default.conf

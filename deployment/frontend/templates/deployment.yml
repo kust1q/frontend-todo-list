@@ -6,19 +6,22 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Chart.Name }}
+      app.kubernetes.io/name: {{ .Chart.Name }}
   template:
     metadata:
       labels:
-        app: {{ .Chart.Name }}
+        app.kubernetes.io/name: {{ .Chart.Name }}
+        app.kubernetes.io/version: "{{ .Chart.Version }}"
+        app.kubernetes.io/component: spring
     spec:
+      {{ if .Values.image.private }}
+      imagePullSecrets:
+        - name: private-registry
+      {{ end }}
       containers:
         - name: {{ .Chart.Name }}
           image: {{ .Values.image.name }}:{{ .Values.image.version }}
           imagePullPolicy: Always
-          env:
-            - name: REACT_APP_BACKEND_IP
-              value: http://{{ .Values.fqdn }}/backened
           ports:
             - name: web
               containerPort: {{ .Values.port }}
