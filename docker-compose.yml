@@ -13,23 +13,23 @@ services:
     ports:
       - "5432:5432"
 
-  simple-backend:
-    image: romanowalex/todo-list-backend:v1.0
-    container_name: todo-list-backend
+  backend-todo-list:
+    image: romanowalex/backend-todo-list:v1.0
+    container_name: backend-todo-list
     environment:
       SPRING_PROFILES_ACTIVE: docker
     depends_on:
       - postgres
 
-  simple-frontend:
+  frontend-todo-list:
     build: .
-    image: romanowalex/todo-list-frontend:v1.0
-    container_name: todo-list-frontend
+    image: romanowalex/frontend-todo-list:v1.0
+    container_name: frontend-todo-list
     restart: on-failure
     ports:
       - "3000:80"
     depends_on:
-      - todo-list-backend
+      - backend-todo-list
 
 volumes:
   db-data:
