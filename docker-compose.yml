@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  postgres:
+    image: library/postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./postgres/:/docker-entrypoint-initdb.d/
+    ports:
+      - "5432:5432"
+
+  simple-backend:
+    image: romanowalex/todo-list-backend:v1.0
+    container_name: todo-list-backend
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    depends_on:
+      - postgres
+
+  simple-frontend:
+    build: .
+    image: romanowalex/todo-list-frontend:v1.0
+    container_name: todo-list-frontend
+    restart: on-failure
+    ports:
+      - "3000:80"
+    depends_on:
+      - todo-list-backend
+
+volumes:
+  db-data:

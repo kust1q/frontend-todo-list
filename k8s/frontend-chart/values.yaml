@@ -1,0 +1,13 @@
+domain: todo-list.romanow-alex.ru
+port: 3000
+
+image:
+  name: romanowalex/todo-list-frontend
+  version: v1.0
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 128Mi
