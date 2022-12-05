@@ -1,4 +1,4 @@
 -- file: 10-create-user-and-db.sql
-CREATE DATABASE simple_backend;
+CREATE DATABASE todo_list;
 CREATE USER program WITH PASSWORD 'test';
-GRANT ALL PRIVILEGES ON DATABASE simple_backend TO program;
+GRANT ALL PRIVILEGES ON DATABASE todo_list TO program;
