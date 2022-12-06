@@ -11,9 +11,8 @@ type ItemList = {
 }
 
 const Presentation: FC<ItemList> = ({items, createNewItem, removeItem, loadItems}) => {
-  useEffect(() => {
-    loadItems()
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { loadItems() }, []);
   return (
       <div className="container-fluid vh-100">
         <NewItem createNewItem={createNewItem}/>
