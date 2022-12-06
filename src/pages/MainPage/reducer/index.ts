@@ -1,31 +1,31 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AnyAction} from "redux";
 import uuid from "uuid-random";
 import filter from "lodash/filter";
-import {Item} from "../types";
+import {ErrorResponseData, Item, ItemState} from "../types";
 import {Api} from "../../../Api";
 
 const hasPrefix = (action: AnyAction, prefix: string) => action.type.startsWith(prefix);
-const isRejected = (action: AnyAction) => action.type.endsWith("/rejected");
-const isRejectedAction = (prefix: string) => (action: AnyAction): action is AnyAction => {
-  return hasPrefix(action, prefix) && isRejected(action);
-};
 
-const initialState = {
-  items: [] as Item[]
+const isPending = (action: AnyAction) => action.type.endsWith("/pending");
+const isRejected = (action: AnyAction) => action.type.endsWith("/rejected");
+const isFulfilled = (action: AnyAction) => action.type.endsWith("/fulfilled");
+
+const isCompletedAction = (prefix: string) => (action: AnyAction) => hasPrefix(action, prefix) && (isRejected(action) || isFulfilled(action));
+const isRejectedAction = (prefix: string) => (action: AnyAction) => hasPrefix(action, prefix) && isRejected(action);
+
+const initialState: ItemState = {
+  items: [],
+  needAuth: false,
+  loading: false
 };
 
 const loadItems = createAsyncThunk(
     "items/all",
     async (param, thunkAPI) => {
       return await Api.loadItems()
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        } else {
-          return thunkAPI.rejectWithValue(response.json())
-        }
-      })
+      .then(response => response.data)
+      .catch(error => thunkAPI.rejectWithValue({status: error.response.status, message: error.message}))
     }
 );
 
@@ -34,12 +34,8 @@ const addNewItem = createAsyncThunk(
     async (text: string, thunkAPI) => {
       const item = {text: text, uid: uuid()}
       return await Api.addNewItem(item)
-      .then(response => {
-        if (response.ok) {
-          return item
-        } else
-          return thunkAPI.rejectWithValue(response.json())
-      })
+      .then(() => item)
+      .catch(error => thunkAPI.rejectWithValue({status: error.response.status, message: error.message}))
     }
 );
 
@@ -47,12 +43,8 @@ const removeItem = createAsyncThunk(
     "items/remove",
     async (uid: string, thunkAPI) => {
       return await Api.removeItem(uid)
-      .then(response => {
-        if (response.ok) {
-          return uid
-        } else
-          return thunkAPI.rejectWithValue(response.json())
-      })
+      .then(() => uid)
+      .catch(error => thunkAPI.rejectWithValue({status: error.response.status, message: error.message}))
     }
 );
 
@@ -65,14 +57,27 @@ export const slice = createSlice({
     .addCase(loadItems.fulfilled, (state, action) => {
       state.items = action.payload;
     })
-    .addCase(addNewItem.fulfilled, (state, action) => {
-      state.items.push(action.payload)
+    .addCase(addNewItem.fulfilled, (state, action: PayloadAction<Item>) => {
+      state.items = [...state.items, action.payload]
     })
     .addCase(removeItem.fulfilled, (state, action) => {
       state.items = filter(state.items, (item) => item.uid !== action.payload)
     })
-    .addMatcher(isRejectedAction("items"), (state, action) => {
-      console.error("Error response: ", action.payload)
+    .addMatcher(isPending, (state) => {
+      state.loading = true
+    })
+    .addMatcher(isFulfilled, (state) => {
+      state.needAuth = false
+    })
+    .addMatcher(isCompletedAction("items"), (state) => {
+      state.loading = false
+    })
+    .addMatcher(isRejectedAction("items"), (state, action: PayloadAction<ErrorResponseData>) => {
+      const {status, message} = action.payload;
+      if (status === 401) {
+        state.needAuth = true
+      }
+      console.error("Error response [", message, "]")
     })
   },
 });
