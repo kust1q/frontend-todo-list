@@ -27,7 +27,7 @@ services:
 
   frontend-todo-list:
     build: .
-    image: romanowalex/todo-list-frontend:v2.0
+    image: romanowalex/frontend-todo-list:v2.0
     container_name: frontend-todo-list
     restart: on-failure
     ports:
