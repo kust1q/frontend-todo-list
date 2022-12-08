@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {Provider} from "react-redux";
 
-import {MainPage} from "./pages/MainPage"
 import {store} from "./store";
+import {MainPage} from "./pages/MainPage";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";

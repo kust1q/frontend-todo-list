@@ -3,3 +3,9 @@
     opacity: 0.9;
     background-color: #212536
 }
+
+.btn-width {
+    width: 175px;
+    padding: 0 5px;
+    margin: 5px 0;
+}
