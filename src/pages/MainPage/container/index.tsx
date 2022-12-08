@@ -14,7 +14,7 @@ const Container: FC = () => {
     const loading = useSelector((state: RootState) => state.loading)
     useEffect(() => {
         loadItems()
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div>
