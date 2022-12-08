@@ -50,5 +50,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          tags: romanowalex/frontend-todo-list:v1.0
+          tags: romanowalex/frontend-todo-list:v2.0
           push: true
