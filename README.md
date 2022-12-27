@@ -20,8 +20,21 @@ $ kind create cluster --config kind.yml
 
 $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 
-$ echo "127.0.0.1        todo-list.local" | sudo tee -a /etc/hosts
+$ helm repo add romanow https://romanow.github.io/helm-charts/
+$ helm search romanow
+
+$ kind load docker-image postgres:15
+$ helm install postgres -f postgres/values.yaml romanow/postgres
+
+$ kubectl create secret generic credentials \
+    --from-literal=google-client-id=<client-id> \
+    --from-literal=google-client-secret=<client-secret>
+
+$ kind load docker-image romanowalex/backend-todo-list:v2.0
+$ helm install backend-todo-list -f backend/values.yaml romanow/java-service
 
 $ kind load docker-image romanowalex/frontend-todo-list:v2.0
-$ helm install frontend-todo-list frontend-chart --set domain=todo-list.local
+$ helm upgrade frontend-todo-list -f frontend/values.yaml romanow/frontend
+
+$ echo "127.0.0.1        todo-list.ru" | sudo tee -a /etc/hosts
 ```
