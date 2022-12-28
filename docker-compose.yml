@@ -26,6 +26,7 @@ services:
       - postgres
 
   frontend-todo-list:
+    build: .
     image: romanowalex/frontend-todo-list:v2.0
     container_name: frontend-todo-list
     ports:
