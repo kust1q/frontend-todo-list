@@ -23,12 +23,16 @@ const NewItem: FC<Props> = ({createNewItem}) => {
                 <h2 className="h2">&nbsp;TODO application</h2>
                 <div className="input-group mb-3">
                     <input type="text"
+                           data-id="new-item-todo-input"
                            placeholder="TODO"
                            value={text}
                            className="form-control"
                            onKeyPress={(e) => onKeyPress(e.key)}
                            onChange={(e) => onChange(e.target.value)}/>
-                    <button type="button" className="btn btn-outline-info" onClick={handleCreateNew}>
+                    <button type="button"
+                            data-id="new-item-todo-button"
+                            className="btn btn-outline-info"
+                            onClick={handleCreateNew}>
                         <i className="bi bi-plus-circle"/>
                     </button>
                 </div>

@@ -18,11 +18,7 @@ const Presentation: FC<ItemList> = ({loading, items, createNewItem, removeItem})
             {
                 loading ?
                     <Loader/> :
-                    items.map(item =>
-                        <TodoItem
-                            key={item.uid}
-                            item={item}
-                            removeItem={removeItem}/>)
+                    items.map(item => <TodoItem key={item.uid} item={item} removeItem={removeItem}/>)
             }
         </div>
     );

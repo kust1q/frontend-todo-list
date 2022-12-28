@@ -9,12 +9,15 @@ type Props = {
 
 const TodoItem: FC<Props> = ({item: {text, uid}, removeItem}) => {
     return (
-        <div className="row justify-content-center ">
+        <div className="row justify-content-center" data-id={`todo-item-row-${uid}`}>
             <div className="col-lg-4 item-row">
                 <div className="d-flex justify-content-between">
-                    <span className="mx-3">{text}</span>
+                    <span className="mx-3" data-it={`todo-item-text-span-${uid}`}>{text}</span>
                     <span>&nbsp;</span>
-                    <button type="button" className="btn btn-outline-danger" onClick={() => removeItem(uid)}>
+                    <button type="button"
+                            data-it={`todo-item-remove-button-${uid}`}
+                            className="btn btn-outline-danger"
+                            onClick={() => removeItem(uid)}>
                         <i className="bi bi-x-circle"/>
                     </button>
                 </div>

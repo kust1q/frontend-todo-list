@@ -11,12 +11,13 @@ const LoginForm: FC = () => {
             <div className="container-fluid">
                 <div className="row justify-content-center align-items-center min-vh-100">
                     <div className="col-md-4 text-center">
-                        <div className="row justify-content-center">
+                        <div className="row justify-content-center" data-id="login-form-authorize-modal">
                             <div className="col-12">
                                 <h2 className="text-info">Авторизоваться с помощью</h2>
                             </div>
                             <div className="col-12">
                                 <button type="button"
+                                        data-id="login-form-google-button"
                                         className="btn btn-light btn-width"
                                         onClick={() => auth("google")}>
                                     <i className="bi bi-google"/>&nbsp;Google
@@ -24,6 +25,7 @@ const LoginForm: FC = () => {
                             </div>
                             <div className="col-12">
                                 <button type="button"
+                                        data-id="login-form-auth0-button"
                                         className="btn btn-light btn-width"
                                         onClick={() => auth("auth0")}>
                                     <i className="bi bi-shield-fill-check"/>&nbsp;Auth0
