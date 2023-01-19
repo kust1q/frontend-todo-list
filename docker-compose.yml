@@ -30,7 +30,7 @@ services:
     image: romanowalex/frontend-todo-list:v2.0
     container_name: frontend-todo-list
     ports:
-      - "80:80"
+      - "8880:80"
     depends_on:
       - backend-todo-list
 
