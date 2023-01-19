@@ -29,6 +29,8 @@ services:
     build: .
     image: romanowalex/frontend-todo-list:v2.0
     container_name: frontend-todo-list
+    environment:
+      BACKEND_HOST: backend-todo-list
     ports:
       - "8880:80"
     depends_on:
