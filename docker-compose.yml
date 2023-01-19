@@ -29,7 +29,6 @@ services:
     build: .
     image: romanowalex/frontend-todo-list:v2.0
     container_name: frontend-todo-list
-    command: /bin/bash -c "envsubst < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
     ports:
       - "80:80"
     depends_on:
