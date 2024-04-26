@@ -1,12 +1,17 @@
-version: "3.8"
+version: "3.9"
 services:
   postgres:
-    image: library/postgres:13
+    image: library/postgres:15
     container_name: postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - db-data:/var/lib/postgresql/data
       - ./postgres/:/docker-entrypoint-initdb.d/
@@ -22,8 +27,14 @@ services:
       GOOGLE_CLIENT_SECRET: "${GOOGLE_CLIENT_SECRET:-''}"
     ports:
       - "8080:8080"
+    healthcheck:
+      test: [ "CMD", "curl", "--silent", "--fail", "http://localhost:8080/manage/health" ]
+      interval: 20s
+      timeout: 10s
+      retries: 10
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
   frontend-todo-list:
     build: .
@@ -33,6 +44,11 @@ services:
       BACKEND_HOST: backend-todo-list
     ports:
       - "8880:80"
+    healthcheck:
+      test: "curl --fail http://localhost || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 5
     depends_on:
       - backend-todo-list
 
