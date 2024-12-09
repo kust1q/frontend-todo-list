@@ -19,16 +19,16 @@ services:
       - "5432:5432"
 
   backend-todo-list:
-    image: romanowalex/backend-todo-list:v2.0
+    image: romanowalex/backend-todo-list:v2.2
     container_name: backend-todo-list
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      GOOGLE_CLIENT_ID: "${GOOGLE_CLIENT_ID:-''}"
-      GOOGLE_CLIENT_SECRET: "${GOOGLE_CLIENT_SECRET:-''}"
+      OAUTH2_SECURITY_ENABLED: false
+      TRACING_ENABLED: false
     ports:
       - "8080:8080"
     healthcheck:
-      test: [ "CMD", "curl", "--silent", "--fail", "http://localhost:8080/manage/health" ]
+      test: [ "CMD", "curl", "--silent", "--fail", "http://localhost:8080/backend/manage/health" ]
       interval: 20s
       timeout: 10s
       retries: 10

@@ -31,6 +31,14 @@ const LoginForm: FC = () => {
                                     <i className="bi bi-shield-fill-check"/>&nbsp;Auth0
                                 </button>
                             </div>
+                            <div className="col-12">
+                                <button type="button"
+                                        data-id="login-form-keycloak-button"
+                                        className="btn btn-light btn-width"
+                                        onClick={() => auth("keycloak")}>
+                                    <i className="bi bi-key-fill"/>&nbsp;Keycloak
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
